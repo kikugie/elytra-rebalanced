@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "dev.kikugie.elytra_rebalanced.mixin.common",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "FireworkRocketItemMixin",
+    "PlayerEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
