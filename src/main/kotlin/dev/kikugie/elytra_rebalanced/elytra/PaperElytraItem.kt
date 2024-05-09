@@ -8,6 +8,17 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ElytraItem
 import net.minecraft.item.ItemStack
 
+/**
+ * An early game replacement of the standard elytra. Designed to be weaker with the following limitations:
+ * - Has 4 times less durability;
+ * - Can't be repaired;
+ * - Can't be enchanted;
+ * - Can't be boosted with rockets;
+ * - Requires 3+ blocks of fall distance to deploy;
+ * - If slowed down too much while flying, will deactivate.
+ *
+ * @see [ElytraController]
+ */
 class PaperElytraItem(settings: Settings) : ElytraItem(settings), FabricElytraItem {
     override fun canRepair(stack: ItemStack, ingredient: ItemStack) = false
 

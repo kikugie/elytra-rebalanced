@@ -6,6 +6,16 @@ import dev.kikugie.elytra_rebalanced.util.TickTimer
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.player.PlayerEntity
 
+/**
+ * Controls the behaviour of [PaperElytraItem] for each player.
+ *
+ * Consists of 5 stages:
+ * - [INVALID]: Paper elytra isn't equipped;
+ * - [UNAVAILABLE]: Paper elytra can't be deployed;
+ * - [ALLOWED]: Paper elytra can be deployed, but hasn't been yet;
+ * - [ACTIVE]: Paper elytra is deployed, and you fly weee;
+ * - [COUNTDOWN]: You have slowed down too much and the paper elytra is about to deactivate.
+ */
 open class ElytraController(private val player: PlayerEntity) {
     protected val timer = TickTimer(DEACTIVATION_TIME) { if (player.hasPaperElytra) player.stopFallFlying() }
     protected val buffer = TickTimer(BUFFER_TIME)
