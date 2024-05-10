@@ -8,7 +8,7 @@ import net.minecraft.registry.Registries
 @Suppress("MemberVisibilityCanBePrivate")
 object ModItems {
     val PAPER_ELYTRA = item(::PaperElytraItem) {
-        maxDamage(100)
+        maxDamage(196)
         maxCount(1)
     }
 

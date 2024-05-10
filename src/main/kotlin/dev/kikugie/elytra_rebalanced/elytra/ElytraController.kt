@@ -17,11 +17,11 @@ import net.minecraft.entity.player.PlayerEntity
  * - [COUNTDOWN]: You have slowed down too much and the paper elytra is about to deactivate.
  */
 open class ElytraController(private val player: PlayerEntity) {
-    protected val timer = TickTimer(DEACTIVATION_TIME) { if (player.hasPaperElytra) player.stopFallFlying() }
+    protected val timer = TickTimer(DEACTIVATION_TIME) { if (player.isWearingPaperElytra) player.stopFallFlying() }
     protected val buffer = TickTimer(BUFFER_TIME)
     val status
         get() = when {
-            !player.hasPaperElytra -> INVALID
+            !player.isWearingPaperElytra -> INVALID
             player.isOnGround || player.abilities.flying -> UNAVAILABLE
             timer.isActive && timer.current < DEACTIVATION_TIME - 5 -> COUNTDOWN
             timer.isActive && player.isFallFlying -> ACTIVE
@@ -35,10 +35,10 @@ open class ElytraController(private val player: PlayerEntity) {
             buffer.cancel()
             return
         }
-        if (buffer.isActive && canBeActivated() && player.hasPaperElytra) {
+        if (buffer.isActive && canBeActivated() && player.isWearingPaperElytra) {
             player.startFallFlying()
             buffer.cancel()
-        } else if (isFlightStable()) timer.reset()
+        } else if (player.isFallFlying && isFlightStable()) timer.reset()
         timer.tick()
         buffer.tick()
     }
@@ -63,14 +63,15 @@ open class ElytraController(private val player: PlayerEntity) {
 
     companion object {
         const val REQUIRED_FALL_DISTANCE = 3
-        const val REQUIRED_VELOCITY_SQ = 0.5
+        const val REQUIRED_VELOCITY_SQ = 0.4
         const val DEACTIVATION_TIME = 100
         const val BUFFER_TIME = 20
 
         @JvmStatic
         val PlayerEntity.controller: ElytraController get() = (this as ElytraControllerAccessor).`elytraRebalanced$getController`()
+
         @JvmStatic
-        val PlayerEntity.hasPaperElytra get() = getEquippedStack(EquipmentSlot.CHEST).item is PaperElytraItem
+        val PlayerEntity.isWearingPaperElytra get() = getEquippedStack(EquipmentSlot.CHEST).item is PaperElytraItem
     }
 
     enum class Status {
