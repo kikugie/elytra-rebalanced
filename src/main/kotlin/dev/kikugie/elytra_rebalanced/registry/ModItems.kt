@@ -14,7 +14,7 @@ object ModItems {
 
     fun registerModItems(): Unit = with(Registries.ITEM) {
         register("paper_elytra", PAPER_ELYTRA).group(ItemGroups.TOOLS) {
-            addAfter(Items.ELYTRA, it)
+            addBefore(Items.ELYTRA, it)
         }
     }
 }

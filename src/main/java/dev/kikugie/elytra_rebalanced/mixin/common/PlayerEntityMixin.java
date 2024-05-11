@@ -18,15 +18,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class PlayerEntityMixin implements ElytraControllerAccessor {
     @Shadow public abstract void sendMessage(Text message, boolean overlay);
 
-    @Shadow public abstract void startFallFlying();
-
     @Unique
     public final ElytraController controller = elytraRebalanced$createController();
 
     @Inject(method = "tickMovement", at = @At("TAIL"))
     private void tickController(CallbackInfo ci) {
         controller.tick();
-        sendMessage(Text.of(controller.getStatus().name()), true);
+//        ElytraController.Status status = controller.getStatus();
+//        if (status != ElytraController.Status.UNAVAILABLE)
+//            sendMessage(Text.of(status.name()), true);
     }
 
     @Override
